@@ -3,10 +3,16 @@
     padding: 0px;
 }
 
+textarea {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(225, 225, 225, 0));
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
 body {
     position: absolute;
-    /* background-color: blueviolet; */
-    background-image: url("../assets/backsign.png");
+    background-color: #111B22;
+    /* background-image: url("../assets/backsign.png"); */
     width: 100%;
     height: 100%;
 }
@@ -19,10 +25,10 @@ body {
 }
 
 .box {
-    background: linear-gradient(135deg, rgba(244, 239, 239, 0.1), rgba(225, 225, 225, 0));
+    /* background: linear-gradient(135deg, rgba(244, 239, 239, 0.1), rgba(225, 225, 225, 0));
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.18); */
 
     display: flex;
     width: 1300px;

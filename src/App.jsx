@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react'
 import Navbar from './components/Navbar'
+import './components/BubblyButton.css'
 import './components/components.css'
+import defaultbg from './assets/defaultbg.svg'
+import load from './assets/load.gif'
 import style1 from './assets/style1.jpg'
 import style2 from './assets/style2.jpg'
 import style3 from './assets/style3.jpg'
@@ -14,30 +17,24 @@ import style10 from './assets/style10.jpg'
 
 function App() {
   const [msg, setmsg] = useState("")
-  const [Ratio, setRatio] = useState("Ratio_1")
+  const [Ratio, setRatio] = useState("Ratio_3")
   const [Style, setStyle] = useState("Style_1")
   const [Imageurl, setImageurl] = useState("/")
 
-  const imageGenerate = async () => {
-    const response = await fetch(
-      "https://api.openai.com/v1/images/generations",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: import.meta.env.VITE_URL,
-          "User-Agent": "Chrome",
-        },
-        body: JSON.stringify({
-          prompt: msg,
-          n: 1,
-          size: "512x512",
-        })
-      }
-    );
-    let data = await response.json();
-    console.log(data);
-  }
+  const imgstyle = useRef("")
+
+  const animateButton = (e) => {
+    e.preventDefault();
+
+    // Reset animation
+    e.target.classList.remove('animate');
+
+    // Add animation class
+    e.target.classList.add('animate');
+    setTimeout(() => {
+      e.target.classList.remove('animate');
+    }, 700);
+  };
 
 
   const handlechange = (e) => {
@@ -53,7 +50,24 @@ function App() {
   }
 
   const Generate = (e) => {
-    imageGenerate();
+    animateButton(e)
+    setImageurl(load)
+
+    if (Style === "Style_1") { imgstyle.current = ""; }
+    else if (Style === "Style_2") { imgstyle.current = "in a cyberpunk theme in 400x400 pixels"; }
+    else if (Style === "Style_3") { imgstyle.current = "in a old drawing and vintage theme"; }
+    else if (Style === "Style_4") { imgstyle.current = "in a Renaissance Painting theme"; }
+    else if (Style === "Style_5") { imgstyle.current = "in a abstract theme"; }
+    else if (Style === "Style_6") { imgstyle.current = "in a origami theme"; }
+    else if (Style === "Style_7") { imgstyle.current = "in a graffiti theme"; }
+    else if (Style === "Style_8") { imgstyle.current = "in a anime theme"; }
+    else if (Style === "Style_9") { imgstyle.current = "in a pop art theme"; }
+    else if (Style === "Style_10") { imgstyle.current = "in a manga panel theme"; }
+
+    const Image1 = "https://image.pollinations.ai/prompt/" + msg + imgstyle.current
+    setTimeout(() => {
+      setImageurl(Image1)
+    }, 5000);
   }
 
   return (
@@ -66,7 +80,7 @@ function App() {
             <div className='left_1'>
               {/* promopt */}
               <div className='heading'>Enter a prompt :</div>
-              <div className=' h-[140px]'><textarea className='h-full w-full break-words outline-none resize-none overflow-y-auto bg-transparent border border-white text-white p-1' type="text" value={msg} onChange={handlechange} /></div>
+              <div className=' h-[140px]'><textarea className='h-full w-full break-words outline-none resize-none overflow-y-auto bg-transparent border border-white text-white p-1' type="text" value={msg} placeholder='Type here' onChange={handlechange} /></div>
 
               {/* select aspect ratio */}
               <div className='heading'> Select Aspect Ratio : </div>
@@ -94,21 +108,31 @@ function App() {
                 <div id='Style_10' className='style_box' style={Style == "Style_10" ? { outline: "solid white" } : { outline: "none" }} onClick={() => { cur_style("Style_10") }}><img src={style10} alt="" /></div>
               </div>
 
-              <div className='w-full flex items-center justify-center m-2'>
-                <button type="button" class=" cursor-pointer text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-2xl w-[200px] rounded-full px-5 py-2.5 text-center me-2 mb-2" disabled={msg.length < 10} onClick={Generate} >Genrate </button>
+              <div className='text-center'>
+                <button
+                  className="bubbly-button cursor-pointer text-white bg-[#B11372] focus:outline-none text-2xl w-[200px] rounded-full px-5 py-2.5 text-center me-2 mb-2 " disabled={((msg.trim()).length < 3)}
+                  onClick={Generate}
+                >
+                  Generate
+                </button>
               </div>
-
             </div>
             <div id='r1' className='right_1'  >
-              <div className='flex flex-col items-center justify-center gap-2 border border-white rounded-lg h-[90%] w-[90%]'>
-                {Imageurl == "/" && <div className='flex flex-col items-center justify-center gap-2  text-white text-7xl font-semibold'>
+              <div className='flex flex-col items-center justify-center gap-2 border border-white rounded-lg h-[90%] w-[90%] p-1'>
+                {/* {Imageurl == "/" && <div className='flex flex-col items-center justify-center gap-2  text-[#B11372] text-7xl font-semibold'>
                   <div>GENERATE</div>
                   <div>AI</div>
                   <div>IMAGE</div>
-                </div>}
+                </div>} */}
+                {Imageurl == "/" && <img className='object-cover overflow-hidden' src={defaultbg} alt="" />}
 
-                {Imageurl != "/" &&
-                  <img className='object-cover overflow-hidden' src={style1} alt="" />}
+                {Imageurl === load && <img className='object-cover overflow-hidden' src={Imageurl} alt="" />}
+
+                {(Imageurl != "/" && Imageurl != load && Ratio == "Ratio_1") && <img className='object-cover overflow-hidden aspect-[16/8] ' src={Imageurl} alt="" />}
+                {(Imageurl != "/" && Imageurl != load && Ratio == "Ratio_2") && <img className='object-cover overflow-hidden  aspect-[16/10]' src={Imageurl} alt="" />}
+                {(Imageurl != "/" && Imageurl != load && Ratio == "Ratio_3") && <img className='object-cover overflow-hidden  aspect-[1/1]' src={Imageurl} alt="" />}
+                {(Imageurl != "/" && Imageurl != load && Ratio == "Ratio_4") && <img className='object-cover overflow-hidden  aspect-[3/4]' src={Imageurl} alt="" />}
+                {(Imageurl != "/" && Imageurl != load && Ratio == "Ratio_5") && <img className='object-cover overflow-hidden  aspect-[9/16]' src={Imageurl} alt="" />}
               </div>
             </div>
           </div>
