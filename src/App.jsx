@@ -54,7 +54,7 @@ function App() {
     setImageurl(load)
 
     if (Style === "Style_1") { imgstyle.current = ""; }
-    else if (Style === "Style_2") { imgstyle.current = "in a cyberpunk theme in 400x400 pixels"; }
+    else if (Style === "Style_2") { imgstyle.current = "in a cyberpunk theme "; }
     else if (Style === "Style_3") { imgstyle.current = "in a old drawing and vintage theme"; }
     else if (Style === "Style_4") { imgstyle.current = "in a Renaissance Painting theme"; }
     else if (Style === "Style_5") { imgstyle.current = "in a abstract theme"; }
@@ -95,7 +95,7 @@ function App() {
               </div>
 
               <div className='heading'>Select a Style :</div>
-              <div className='flex flex-wrap justify-evenly gap-4 p-2 '>
+              <div className='flex flex-wrap justify-evenly gap-4 p-2 max-[430px]:gap-2 max-[430px]:p-1'>
                 <div id='Style_1' className='style_box' style={Style == "Style_1" ? { outline: "solid white" } : { outline: "none" }} onClick={() => { cur_style("Style_1") }} ><img src={style1} alt="" /></div>
                 <div id='Style_2' className='style_box' style={Style == "Style_2" ? { outline: "solid white" } : { outline: "none" }} onClick={() => { cur_style("Style_2") }}><img src={style2} alt="" /></div>
                 <div id='Style_3' className='style_box' style={Style == "Style_3" ? { outline: "solid white" } : { outline: "none" }} onClick={() => { cur_style("Style_3") }}><img src={style3} alt="" /></div>
@@ -119,11 +119,6 @@ function App() {
             </div>
             <div id='r1' className='right_1'  >
               <div className='flex flex-col items-center justify-center gap-2 border border-white rounded-lg h-[90%] w-[90%] p-1'>
-                {/* {Imageurl == "/" && <div className='flex flex-col items-center justify-center gap-2  text-[#B11372] text-7xl font-semibold'>
-                  <div>GENERATE</div>
-                  <div>AI</div>
-                  <div>IMAGE</div>
-                </div>} */}
                 {Imageurl == "/" && <img className='object-cover overflow-hidden' src={defaultbg} alt="" />}
 
                 {Imageurl === load && <img className='object-cover overflow-hidden' src={Imageurl} alt="" />}
