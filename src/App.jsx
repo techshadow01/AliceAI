@@ -78,7 +78,7 @@ function App() {
     else if (Style === "Style_10") { imgstyle.current = " in a manga panel theme"; }
 
 
-    const Image1 = import.meta.env.VITE_URL + msg + imgstyle.current
+    const Image1 = "https://image.pollinations.ai/prompt/" + msg + imgstyle.current
 
     addImageProcess(Image1).then(e => {
       setImageurl(Image1)
