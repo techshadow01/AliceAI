@@ -49,25 +49,41 @@ function App() {
     setStyle(e)
   }
 
-  const Generate = (e) => {
+  const addImageProcess = (src) => {
+    return new Promise((resolve, reject) => {
+      let img = new Image()
+      img.onload = () => resolve(img.height)
+      img.onerror = reject
+      img.src = src
+    })
+  }
+
+  const Generate = async (e) => {
+
+    btn1.disabled = true;
+
     animateButton(e)
     setImageurl(load)
 
-    if (Style === "Style_1") { imgstyle.current = ""; }
-    else if (Style === "Style_2") { imgstyle.current = "in a cyberpunk theme "; }
-    else if (Style === "Style_3") { imgstyle.current = "in a old drawing and vintage theme"; }
-    else if (Style === "Style_4") { imgstyle.current = "in a Renaissance Painting theme"; }
-    else if (Style === "Style_5") { imgstyle.current = "in a abstract theme"; }
-    else if (Style === "Style_6") { imgstyle.current = "in a origami theme"; }
-    else if (Style === "Style_7") { imgstyle.current = "in a graffiti theme"; }
-    else if (Style === "Style_8") { imgstyle.current = "in a anime theme"; }
-    else if (Style === "Style_9") { imgstyle.current = "in a pop art theme"; }
-    else if (Style === "Style_10") { imgstyle.current = "in a manga panel theme"; }
 
-    const Image1 = "https://image.pollinations.ai/prompt/" + msg + imgstyle.current
-    setTimeout(() => {
+    if (Style === "Style_1") { imgstyle.current = ""; }
+    else if (Style === "Style_2") { imgstyle.current = " in a cyberpunk theme in 400x400 pixels"; }
+    else if (Style === "Style_3") { imgstyle.current = " in a old drawing and vintage theme"; }
+    else if (Style === "Style_4") { imgstyle.current = " in a Renaissance Painting theme"; }
+    else if (Style === "Style_5") { imgstyle.current = " in a abstract theme"; }
+    else if (Style === "Style_6") { imgstyle.current = " in a origami theme"; }
+    else if (Style === "Style_7") { imgstyle.current = " in a graffiti theme"; }
+    else if (Style === "Style_8") { imgstyle.current = " in a anime theme"; }
+    else if (Style === "Style_9") { imgstyle.current = " in a pop art theme"; }
+    else if (Style === "Style_10") { imgstyle.current = " in a manga panel theme"; }
+
+
+    const Image1 = import.meta.env.VITE_URL + msg + imgstyle.current
+
+    addImageProcess(Image1).then(e => {
       setImageurl(Image1)
-    }, 5000);
+      btn1.disabled = false;
+    })
   }
 
   return (
@@ -109,7 +125,7 @@ function App() {
               </div>
 
               <div className='text-center'>
-                <button
+                <button id="btn1"
                   className="bubbly-button cursor-pointer text-white bg-[#B11372] focus:outline-none text-2xl w-[200px] rounded-full px-5 py-2.5 text-center me-2 mb-2 " disabled={((msg.trim()).length < 3)}
                   onClick={Generate}
                 >
